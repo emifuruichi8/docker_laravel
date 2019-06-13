@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  nginx:
+    build: ./docker/nginx
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./src:/var/www/src
+    ports:
+      - 8081:80
+    depends_on:
+      - phpfpm
+  phpfpm:
+    build: ./docker/php
+    volumes:
+      - ./src:/var/www/src
+    depends_on:
+      - mysql
+    env_file:
+      ./docker/php/env/develop.env
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - ./mnt/mysql:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+    env_file:
+      ./docker/mysql/env/develop.env
+    ports:
+      - 13306:3306
+  redis:
+    restart: always
+    image: redis:5.0.5
+    environment:
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./redis:/data
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
