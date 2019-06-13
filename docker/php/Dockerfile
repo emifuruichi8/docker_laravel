@@ -15,7 +15,6 @@ RUN apk update && apk add --no-cache \
   emacs \
   unzip \
   tzdata \
-  libmcrypt-dev \
   libltdl \
   nodejs-npm \
   && docker-php-ext-install \
