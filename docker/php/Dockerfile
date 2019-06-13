@@ -12,6 +12,7 @@ RUN apk update && apk add --no-cache \
   libmcrypt-dev \
   git \
   vim \
+  emacs \
   unzip \
   tzdata \
   libmcrypt-dev \
