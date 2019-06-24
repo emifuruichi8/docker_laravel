@@ -3,25 +3,22 @@ services:
   nginx:
     build: ./docker/nginx
     volumes:
-      - ./docker/nginx/conf.d:/etc/nginx/conf.d
-      - ./src:/var/www/src
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:cached
+      - ./src:/var/www/src:cached
     ports:
       - 8081:80
-    depends_on:
-      - phpfpm
   phpfpm:
     build: ./docker/php
     volumes:
-      - ./src:/var/www/src
-    depends_on:
-      - mysql
+      - ./src:/var/www/src:cached
     env_file:
       ./docker/php/env/develop.env
   mysql:
     image: mysql:8.0
     volumes:
-      - ./mnt/mysql:/var/lib/mysql
-      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/data:/var/lib/mysql:delegated
+      - ./docker/mysql/log:/var/log/mysql:delegated
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d:consistent
     env_file:
       ./docker/mysql/env/develop.env
     ports:
@@ -32,7 +29,7 @@ services:
     environment:
       TZ: "Asia/Tokyo"
     volumes:
-      - ./redis:/data
+      - ./redis:/data:delegated
     ports:
       - "6379:6379"
     command: redis-server --appendonly yes
