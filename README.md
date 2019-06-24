@@ -1,8 +1,9 @@
 # Environment
 - alpine3.9
-- nginx1.15.7
-- php7.3 laravel5.8.21
-- MySQL8.0
+- nginx1.16.0
+- php7.3.2 laravel5.8.24
+- MySQL8.0.16
+- Redis5.0.5
 
 # Usage
 ```
