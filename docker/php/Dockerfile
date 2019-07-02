@@ -6,13 +6,13 @@ WORKDIR /var/www/src
 COPY ./php.ini /usr/local/etc/php/
 
 RUN apk update && apk add --no-cache \
-  libpng-dev \
   emacs \
-  tzdata \
+  libpng-dev \
   nodejs-npm \
+  tzdata \
   && docker-php-ext-install \
-     pdo_mysql \
      mysqli \
+     pdo_mysql \
   && : "タイムゾーン設定(必要なファイルだけ抜き取る)" \
   && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
   && : "不要パッケージの削除" \
