@@ -13,6 +13,9 @@ services:
       - ./src:/var/www/src:cached
     env_file:
       ./docker/php/env/develop.env
+    ports:
+      - "3000:3000"
+      - "3001:3001"
   mysql:
     image: mysql:8.0.16
     volumes:
