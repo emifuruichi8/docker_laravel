@@ -35,7 +35,7 @@ class PhotoController extends Controller
 
         // S3にファイルを保存する
         // 第三引数の'public'はファイルを公開状態で保存するため
-        Storage::cloud()->putFileAs('', $request->photo, $photo->filename, 'public');
+        Storage::disk('local')->putFileAs('photos', $request->photo, $photo->filename);
 
         // データベースエラー時にファイル削除を行うため
         // トランザクションを利用する
@@ -47,7 +47,7 @@ class PhotoController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             // DBとの不整合を避けるためアップロードしたファイルを削除
-            Storage::cloud()->delete($photo->filename);
+            Storage::disk('local')->delete('photos/'.$photo->filename);
             throw $exception;
         }
 
