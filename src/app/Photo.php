@@ -7,6 +7,8 @@ use Storage;
 
 class Photo extends Model
 {
+    protected $perPage = 2;
+
     /** プライマリキーの型 */
     protected $keyType = 'string';
 
@@ -20,7 +22,7 @@ class Photo extends Model
 
     /** JSONに含める属性 */
     protected $visible = [
-        'id', 'owner', 'url',
+        'id', 'owner', 'url', 'filename',
     ];
 
     public function __construct(array $attributes = [])
@@ -77,6 +79,6 @@ class Photo extends Model
      */
     public function getUrlAttribute()
     {
-        return Storage::disk('public')->url($this->attributes['filename']);
+        return Storage::disk('public')->url('photos/'.$this->attributes['filename']);
     }
 }
